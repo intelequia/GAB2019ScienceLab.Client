@@ -1,0 +1,77 @@
+﻿@using GAB.Client.Services
+@{
+    ViewData["Title"] = "Science Lab Client";
+    var downloaderColor = (bool) ViewData["BatchDownloader.Started"] ? "lime" : (ServiceStatusEnum)ViewData["BatchDownloader.Status"] == ServiceStatusEnum.Paused ? "orange": "red";
+    var downloaderStatus = !(bool)ViewData["BatchDownloader.Started"] ? "Stopped" : (ServiceStatusEnum) ViewData["BatchDownloader.Status"] == ServiceStatusEnum.Running ? "Downloading" : ViewData["BatchDownloader.Status"];
+    var processorColor = (bool)ViewData["BatchProcessor.Started"] ? "lime" : (ServiceStatusEnum)ViewData["BatchProcessor.Status"] == ServiceStatusEnum.Paused ? "orange" : "red";
+    var processorStatus = !(bool)ViewData["BatchProcessor.Started"] ? "Stopped" : (ServiceStatusEnum)ViewData["BatchProcessor.Status"] == ServiceStatusEnum.Running ? "Processing" : ViewData["BatchUploader.Status"];
+    var processorInputId = string.IsNullOrEmpty((string) ViewData["BatchProcessor.InputId"]) ? "None" : $"Input Id: {ViewData["BatchProcessor.InputId"]}";
+    var uploaderColor = (bool)ViewData["BatchUploader.Started"] ? "lime" : (ServiceStatusEnum)ViewData["BatchUploader.Status"] == ServiceStatusEnum.Paused ? "orange" : "red";
+    var uploaderStatus = !(bool)ViewData["BatchUploader.Started"] ? "Stopped" : (ServiceStatusEnum)ViewData["BatchUploader.Status"] == ServiceStatusEnum.Running ? "Uploading" : ViewData["BatchUploader.Status"];
+
+}
+
+<div class="text-center">
+    <h1 class="display-4">Science Lab Client</h1>
+    <p>Learn more about the <a  asp-area="" asp-controller="Home" asp-action="About">Global Azure Bootcamp science lab</a>.</p>
+    <p>
+        <strong>Name:</strong> @Environment.GetEnvironmentVariable("BatchClient__Fullname")
+        | <strong>Email:</strong> @GAB.Client.Utils.StringExtensions.MaskEmailAddress(Environment.GetEnvironmentVariable("BatchClient__Email"))
+        | <strong>Team:</strong> @Environment.GetEnvironmentVariable("BatchClient__TeamName")
+        | <strong>Company:</strong> @Environment.GetEnvironmentVariable("BatchClient__CompanyName")
+        | <strong>Country:</strong> @Environment.GetEnvironmentVariable("BatchClient__CountryCode")
+        | <strong>Location:</strong> @Environment.GetEnvironmentVariable("BatchClient__LabKeyCode")
+</p>
+</div>
+
+<div class="row">
+    <div class="col-4">
+        <div class="text-center">
+            <h6 class="font-weight-bold">INPUTS TO PROCESS</h6>
+            <h1>@ViewData["Downloads"]</h1>
+            <div>
+                <svg height="16" width="16">
+                    <circle cx="8" cy="8" r="6" stroke="black" stroke-width="1" fill="@downloaderColor" />
+                </svg>
+                @downloaderStatus
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="text-center">
+            <h6 class="font-weight-bold">CURRENTLY PROCESSING</h6>
+            <h1>@processorInputId</h1>
+            <div>
+                <svg height="16" width="16">
+                    <circle cx="8" cy="8" r="6" stroke="black" stroke-width="1" fill="@processorColor" />
+                </svg>
+                @processorStatus
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="text-center">
+            <h6 class="font-weight-bold">OUTPUTS TO UPLOAD</h6>
+            <h1>@ViewData["Uploads"]</h1>
+            <div>
+                <svg height="16" width="16">
+                    <circle cx="8" cy="8" r="6" stroke="black" stroke-width="1" fill="@uploaderColor" />
+                </svg>
+                @uploaderStatus
+            </div>            
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <hr/>
+        <h5>Log</h5>
+        <textarea id="logInfo" class="w-100 text-monospace small" readonly rows="10">@GAB.Client.Utils.FileExtensions.Tail("/app/logs/" + DateTime.Today.ToString("yyyy.MM.dd") + ".log")</textarea>
+        <a asp-area="" asp-controller="Home" asp-action="Logs" target="logs" class="small">See full log information</a>
+</div>
+</div>
+<script language="javascript">
+    var textarea = document.getElementById('logInfo');
+    textarea.scrollTop = textarea.scrollHeight;    
+</script>

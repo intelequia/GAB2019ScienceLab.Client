@@ -1,0 +1,13 @@
+/src/GABClient/.vs
+/src/GABClient/GAB.Client/bin
+/src/GABClient/GAB.Client/obj
+/src/GABClient/GAB.Client/inputs
+/src/GABClient/GAB.Client/outputs
+/src/GABClient/GAB.Client/processing
+/src/GABClient/GAB.Client/GAB.Client.csproj.user
+/src/GABClient/GAB.Client/errors
+logs
+__pycache__
+*.npz
+/src/GABClient/GAB.Client/wwwroot/ml/.vscode
+

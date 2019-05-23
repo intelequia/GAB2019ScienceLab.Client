@@ -1,0 +1,1 @@
+{"ticid": "115011683", "sector": 1, "camera": 1, "ccd": 1, "ra": 315.613152, "dec": -38.531028, "tmag": 4.902999877929688, "lc": "samples/1_data.npz", "frequencies": [0.0], "isnotplanet": 0.9732878432973561, "isplanet": 0.026712156702643923}

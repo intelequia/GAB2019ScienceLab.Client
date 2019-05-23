@@ -1,0 +1,7 @@
+﻿matplotlib
+numpy
+astropy
+'photutils==0.3.2'
+statsmodels
+scipy
+'george==0.2.1'
